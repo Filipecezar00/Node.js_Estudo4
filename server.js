@@ -48,12 +48,19 @@ function onError(error){
     }
 }
 
+function onListening(){
+    const addr = server.address(); 
+    const bind = typeof addr === 'string' ? "pipe" + addr : "port" + addr.port; 
+    debug("listening on " + bind); 
+}
 
 
 server.listen(port); 
 server.on('error',onError); 
+server.on("listening",onListening); 
 
 console.log("Servidor no ar"); 
+
 
 
 
