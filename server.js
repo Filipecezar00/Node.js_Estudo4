@@ -51,6 +51,8 @@ function onError(error){
 
 
 server.listen(port); 
+server.on('error',onError); 
+
 console.log("Servidor no ar"); 
 
 
