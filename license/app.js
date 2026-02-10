@@ -1,7 +1,5 @@
 'use strict'
-
-const { version } = require("react");
-
+const express = require("express") 
 const app = express(); 
 const router= express.Router() 
 
@@ -12,5 +10,5 @@ router.get("/",(req,res,next)=>{
     }); 
 }); 
 
-app.use("/",route);  
+app.use("/",router);  
 module.exports = app; 
