@@ -27,7 +27,7 @@ const put = router.put("/:id",(req,res,next)=>{
 const del = router.delete("/:id",(req,res)=>{
     const id = req.params.id; 
     res.status(200).send(id) 
-}); 
+});
 
 app.use("/",router);  
 app.use("/products",create); 
