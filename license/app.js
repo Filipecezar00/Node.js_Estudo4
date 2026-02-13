@@ -5,6 +5,9 @@ const bodyparser = require("body-parser");
 const app = express(); 
 const router= express.Router(); 
 
+//Carregando Rotas 
+const index = require('../src/routes/index'); 
+
 app.use(bodyparser.json()); 
 app.use(bodyparser.urlencoded({extended:false})); 
 
@@ -23,7 +26,7 @@ const del = router.delete("/:id",(req,res)=>{
     res.status(200).send(id) 
 });
 
-app.use("/",router);  
+app.use("/",index);   
 app.use("/products",create); 
 app.use("/:id",put); 
 
