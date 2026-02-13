@@ -2,19 +2,12 @@
 
 const express = require("express"); 
 const routes = express.Router(); 
+const controller = require('../controllers/product.controler'); 
 
-routes.post("/",(req,res,next)=>{
-    res.status(200).send(req.body); 
-}); 
+routes.post("/", controller.post);
 
-routes.put("/:id",(req,res)=>{
-    const id = req.params.id 
-    res.send({id:id,item:req.body}).status(200);
-});
+routes.put("/:id",(req,res)=>{});
 
-routes.delete("/:id",(req,res)=>{
-    const id = req.params.id 
-    res.send(id).status(200);
-}); 
+routes.delete("/:id",(req,res)=>{}); 
 
 module.exports = routes; 
