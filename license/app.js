@@ -10,6 +10,9 @@ const router= express.Router();
 //Conecta ao Banco 
 moongose.connect(process.env.MONGO_URL);  
 
+//Carregando os Models
+const Product = require("../src/models/product");  
+
 //Carregando Rotas 
 const index = require('../src/routes/index'); 
 const products = require('../src/routes/product'); 
