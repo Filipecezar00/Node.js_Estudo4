@@ -8,6 +8,6 @@ routes.get("/",controller.get);
 routes.get("/:slug",controller.getBySlug); 
 routes.post("/", controller.post);
 routes.put("/:id",controller.put);
-routes.delete("/",controller.delete); 
+routes.delete("/:id",controller.delete); 
 
 module.exports = routes; 

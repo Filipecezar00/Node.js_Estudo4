@@ -1,14 +1,15 @@
 'use strict'
 
+require('dotenv').config(); 
 const express = require("express");  
 const bodyparser = require("body-parser"); 
-const moongose = require("mongoose"); 
+const mongoose = require("mongoose"); 
 
 const app = express(); 
 const router= express.Router(); 
 
 //Conecta ao Banco 
-moongose.connect(process.env.MONGO_URL);  
+mongoose.connect(process.env.MONGO_URL);  
 
 //Carregando os Models
 const Product = require("../src/models/product");  
