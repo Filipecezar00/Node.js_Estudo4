@@ -3,6 +3,16 @@
 const mongoose = require("mongoose"); 
 const Product = mongoose.model("Product"); 
 
+exports.get=(req,res,next)=>{
+    Product.find({})
+    .then(data=>{
+        res.status(200).send(data); 
+    })
+    .catch(erro=>{
+        res.status(400).send(erro); 
+    })
+}
+
 exports.post = (req,res,next) =>{
     let product = new Product(req.body); 
 
