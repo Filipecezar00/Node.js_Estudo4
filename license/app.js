@@ -9,7 +9,7 @@ const app = express();
 const router= express.Router(); 
 
 //Conecta ao Banco 
-mongoose.connect(process.env.MONGO_URL);  
+mongoose.connect(process.env.MONGODB_URL);  
 
 //Carregando os Models
 const Product = require("../src/models/product");  
@@ -22,6 +22,9 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:false})); 
 
 app.use("/",index);   
+app.get("/teste",(req,res)=>{
+    res.send("O app.js está funcionando"); 
+})
 app.use("/products",products);  
 
 
