@@ -12,6 +12,24 @@ exports.get=(req,res,next)=>{
         res.status(400).send(erro); 
     })
 }
+exports.getBySlug=(req,res,next)=>{
+    Product.findOne({
+        slug:req.params.slug,
+        active:true 
+    },'title description price slug tags')
+    
+    .then(data=>{
+        if(data){
+            res.status(200).send(data)
+        }else{
+            res.status(404).send({message:"Produto não encontrado"}); 
+        }
+    })
+    .catch(erro=>{
+        res.status(400).send(erro); 
+    })
+}
+
 
 exports.post = (req,res,next) =>{
     let product = new Product(req.body); 
