@@ -30,6 +30,19 @@ exports.getBySlug=(req,res,next)=>{
     })
 }
 
+exports.getById=(req,res,next)=>{
+    Product.findById(req.params.id)
+    .then(data=>{
+        if(data){
+            res.status(200).send(data)
+        }else{
+            res.status(404).send({message:"ID não encontrado"})
+        }
+    })
+    .catch(erro=>{
+        res.status(400).send(erro) 
+    })
+}
 
 exports.post = (req,res,next) =>{
     let product = new Product(req.body); 
