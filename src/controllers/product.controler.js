@@ -53,9 +53,13 @@ exports.put = (req,res,next) =>{
             slug:req.body.slug  
         }
     },{new:true}) 
-    .then(x=>{
+    .then(data=>{
+        if(!data){
+            return res.status(404).send({message:"Produto não encontrado"}); 
+        }
         res.status(200).send({
-        message:"Produto atualizado com sucesso!"
+        message:"Produto atualizado com sucesso!",
+        item:data
         }); 
     }).catch(e=>{
         res.status(400).send({
