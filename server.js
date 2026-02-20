@@ -61,5 +61,5 @@ server.listen(port);
 server.on('error',onError); 
 server.on("listening",onListening); 
 
-console.log("Servidor no ar"); 
+console.log("Servidor Rodando"); 
 

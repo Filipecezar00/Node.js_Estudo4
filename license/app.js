@@ -18,8 +18,8 @@ const Product = require("../src/models/product");
 const index = require('../src/routes/index'); 
 const products = require('../src/routes/product'); 
 
-app.use(bodyparser.json()); 
-app.use(bodyparser.urlencoded({extended:false})); 
+app.use(express.json());
+app.use(express.urlencoded({extended:true})); 
 
 app.use("/",index);   
 app.get("/teste",(req,res)=>{

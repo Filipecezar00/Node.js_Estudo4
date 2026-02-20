@@ -45,6 +45,9 @@ exports.getById=(req,res,next)=>{
 }
 
 exports.put = (req,res,next) =>{
+    console.log("ID do alvo:",req.params.id);
+    console.log("Dados da Munição",req.body);
+    
     Product.findByIdAndUpdate(req.params.id,{
         $set:{ 
             title:req.body.title,
@@ -52,7 +55,7 @@ exports.put = (req,res,next) =>{
             price:req.body.price, 
             slug:req.body.slug  
         }
-    },{new:true}) 
+    },{ new: true }) 
     .then(data=>{
         if(!data){
             return res.status(404).send({message:"Produto não encontrado"}); 
