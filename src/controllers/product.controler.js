@@ -44,6 +44,27 @@ exports.getById=(req,res,next)=>{
     })
 }
 
+exports.put = (req,res,next) =>{
+    Product.findByIdAndUpdate(req.params.id,{
+        $set:{ 
+            title:req.body.title,
+            description:req.body.description, 
+            price:req.body.price, 
+            slug:req.body.slug  
+        }
+    },{new:true}) 
+    .then(x=>{
+        res.status(200).send({
+        message:"Produto atualizado com sucesso!"
+        }); 
+    }).catch(e=>{
+        res.status(400).send({
+            message:'Falha ao atualizar produto', 
+            data:e 
+        })
+    })
+}
+
 exports.post = (req,res,next) =>{
     let product = new Product(req.body); 
 
