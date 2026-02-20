@@ -3,22 +3,15 @@
 require('dotenv').config(); 
 const http = require("http"); 
 const debug = require("debug") ("nodestr:server");
-const express = require("express"); 
-const appjs = require("./license/app"); 
 
-const app = express(); 
+const app = require("./license/app"); 
+
 const port = normalizePort(process.env.PORT || "3000"); 
-appjs.set("port",port);  
+app.set("port",port);  
 
 
-const server = http.createServer(appjs); 
-const router = express.Router(); 
+const server = http.createServer(app); 
 
-router.get("/",(req,res,next)=>{
-res.status(200).send({title:"Node App",version:"0.0.1"}); 
-});
-
-app.use("/",router); 
 
 function normalizePort(val){
     const port = parseInt(val,10); 

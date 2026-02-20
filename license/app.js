@@ -22,12 +22,17 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true})); 
 
 app.use("/",index);   
+
 app.get("/teste",(req,res)=>{
     res.send("O app.js está funcionando"); 
-})
+}); 
+
+router.get("/",(req,res,next)=>{
+res.status(200).send({title:"Node App",version:"0.0.1"}); 
+});
+
+app.use("/",router); 
+
 app.use("/products",products);  
-
-
-
 
 module.exports = app; 
