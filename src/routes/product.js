@@ -4,6 +4,9 @@ const express = require("express");
 const routes = express.Router(); 
 const controller = require('../controllers/product.controler'); 
 
+
+
+
 routes.get("/",controller.get); 
 routes.get("/:slug",controller.getBySlug); 
 routes.get("/admin/:id",controller.getById); 

@@ -99,11 +99,6 @@ res.status(400).send(erro);
 })
 }
 
-exports.put = (req,res,next) =>{
-    const id = req.params.id
-    res.status(200).send({id:id,item:req.body}); 
-}
-
 exports.delete = (req,res,next) =>{
     const id = req.params.id 
     res.status(200).send(id);  

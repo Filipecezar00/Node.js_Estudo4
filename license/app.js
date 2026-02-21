@@ -1,8 +1,16 @@
 'use strict'
 
+console.log("QUERO RESOLVER ESSE BUG"); 
+
+
+
+exports.put=(req,res,next)=>{
+    console.log("Alvo localizado no Radar:",req.params.id);
+    console.log("Carga Recebida",req.body); 
+}
+
 require('dotenv').config(); 
 const express = require("express");  
-const bodyparser = require("body-parser"); 
 const mongoose = require("mongoose"); 
 
 const app = express(); 
@@ -15,11 +23,12 @@ mongoose.connect(process.env.MONGODB_URL);
 const Product = require("../src/models/product");  
 
 //Carregando Rotas 
-const index = require('../src/routes/index'); 
-const products = require('../src/routes/product'); 
+const index = require('../src/routes/index.js'); 
+const Products = require("../src/routes/product.js"); 
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true})); 
+
 
 app.use("/",index);   
 
@@ -27,12 +36,8 @@ app.get("/teste",(req,res)=>{
     res.send("O app.js está funcionando"); 
 }); 
 
-router.get("/",(req,res,next)=>{
-res.status(200).send({title:"Node App",version:"0.0.1"}); 
-});
-
 app.use("/",router); 
 
-app.use("/products",products);  
+app.use("/products",Products);  
 
 module.exports = app; 
