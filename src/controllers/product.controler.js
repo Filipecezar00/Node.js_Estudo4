@@ -111,7 +111,7 @@ exports.getByTag = (req, res, next) => {
 };
 
 exports.delete = (req, res, next) => {
-  Product.findOneAndDelete(req.params.id)
+  Product.findByIdAndDelete(req.params.id)
     .then((x) => {
       res.status(200).send({ message: "Produto Removido com sucesso" });
     })
