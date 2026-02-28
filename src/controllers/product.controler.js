@@ -1,105 +1,123 @@
-'use strict'; 
+"use strict";
 
-const mongoose = require("mongoose"); 
-const Product = mongoose.model("Product"); 
+const mongoose = require("mongoose");
+const Product = mongoose.model("Product");
 
-exports.get=(req,res,next)=>{
-    Product.find({active:true},'title price slug') 
-    .then(data=>{
-        res.status(200).send(data); 
+exports.get = (req, res, next) => {
+  Product.find({ active: true }, "title price slug")
+    .then((data) => {
+      res.status(200).send(data);
     })
-    .catch(erro=>{
-        res.status(400).send(erro); 
-    })
-}
-exports.getBySlug=(req,res,next)=>{
-    Product.findOne({
-        slug:req.params.slug,
-        active:true 
-    },'title description price slug tags')
-    
-    .then(data=>{
-        if(data){
-            res.status(200).send(data)
-        }else{
-            res.status(404).send({message:"Produto não encontrado"}); 
-        }
-    })
-    .catch(erro=>{
-        res.status(400).send(erro); 
-    })
-}
+    .catch((erro) => {
+      res.status(400).send(erro);
+    });
+};
+exports.getBySlug = (req, res, next) => {
+  Product.findOne(
+    {
+      slug: req.params.slug,
+      active: true,
+    },
+    "title description price slug tags",
+  )
 
-exports.getById=(req,res,next)=>{
-    Product.findById(req.params.id)
-    .then(data=>{
-        if(data){
-            res.status(200).send(data)
-        }else{
-            res.status(404).send({message:"ID não encontrado"})
-        }
+    .then((data) => {
+      if (data) {
+        res.status(200).send(data);
+      } else {
+        res.status(404).send({ message: "Produto não encontrado" });
+      }
     })
-    .catch(erro=>{
-        res.status(400).send(erro) 
+    .catch((erro) => {
+      res.status(400).send(erro);
+    });
+};
+
+exports.getById = (req, res, next) => {
+  Product.findById(req.params.id)
+    .then((data) => {
+      if (data) {
+        res.status(200).send(data);
+      } else {
+        res.status(404).send({ message: "ID não encontrado" });
+      }
     })
-}
+    .catch((erro) => {
+      res.status(400).send(erro);
+    });
+};
 
-exports.put = (req,res,next) =>{
-    console.log("ID do alvo:",req.params.id);
-    console.log("Dados da Munição",req.body);
-    
-    Product.findByIdAndUpdate(req.params.id,{
-        $set:{ 
-            title:req.body.title,
-            description:req.body.description, 
-            price:req.body.price, 
-            slug:req.body.slug  
-        }
-    },{ new: true }) 
-    .then(data=>{
-        if(!data){
-            return res.status(404).send({message:"Produto não encontrado"}); 
-        }
-        res.status(200).send({
-        message:"Produto atualizado com sucesso!",
-        item:data
-        }); 
-    }).catch(e=>{
-        res.status(400).send({
-            message:'Falha ao atualizar produto', 
-            data:e 
-        })
+exports.put = (req, res, next) => {
+  console.log("ID do alvo:", req.params.id);
+  console.log("Dados da Munição", req.body);
+
+  Product.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: {
+        title: req.body.title,
+        description: req.body.description,
+        price: req.body.price,
+        slug: req.body.slug,
+      },
+    },
+    { new: true },
+  )
+    .then((data) => {
+      if (!data) {
+        return res.status(404).send({ message: "Produto não encontrado" });
+      }
+      res.status(200).send({
+        message: "Produto atualizado com sucesso!",
+        item: data,
+      });
     })
-}
+    .catch((e) => {
+      res.status(400).send({
+        message: "Falha ao atualizar produto",
+        data: e,
+      });
+    });
+};
 
-exports.post = (req,res,next) =>{
-    let product = new Product(req.body); 
+exports.post = (req, res, next) => {
+  let product = new Product(req.body);
 
-    product.save()
+  product
+    .save()
 
-    .then(x => {
-    res.status(200).send({message:"Produto  Cadastrado com Sucesso"}); 
+    .then((x) => {
+      res.status(200).send({ message: "Produto  Cadastrado com Sucesso" });
     })
-    .catch(e => {
-    res.status(400).send("Erro: " + e)  
-    }); 
-    
-}
+    .catch((e) => {
+      res.status(400).send("Erro: " + e);
+    });
+};
 
-exports.getByTag = (req,res,next)=>{
-Product.find({
-    tags:req.params.tag,
-    active:true
-},'title description price slug tags')
-.then(data=>{
-res.status(200).send(data); 
-})
-.catch(erro=>{
-res.status(400).send(erro); 
-})
-}
+exports.getByTag = (req, res, next) => {
+  Product.find(
+    {
+      tags: req.params.tag,
+      active: true,
+    },
+    "title description price slug tags",
+  )
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((erro) => {
+      res.status(400).send(erro);
+    });
+};
 
-exports.delete = (req,res,next) =>{
-    const id = req.params.id 
-    res.status(200).send(id);  
-}
+exports.delete = (req, res, next) => {
+  Product.findOneAndDelete(req.params.id)
+    .then((x) => {
+      res.status(200).send({ message: "Produto Removido com sucesso" });
+    })
+    .catch((e) => {
+      res
+        .status(500)
+        .send({ message: `${e} erro ao Executar processo de Exclusão` });
+    });
+};
