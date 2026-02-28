@@ -99,7 +99,7 @@ exports.post = (req, res, next) => {
     "A descrição precisa conter no mínimo três caracteres",
   );
 
-  if (!contract.inValid) {
+  if (contract.isValid) {
     res.status(400).send(contract.errors()).end();
     return;
   }
