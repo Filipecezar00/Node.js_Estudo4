@@ -15,14 +15,7 @@ exports.get = (req, res, next) => {
     });
 };
 exports.getBySlug = (req, res, next) => {
-  Product.findOne(
-    {
-      slug: req.params.slug,
-      active: true,
-    },
-    "title description price slug tags",
-  )
-
+  Repository.getBySlug(req.params.slug)
     .then((data) => {
       if (data) {
         res.status(200).send(data);
@@ -36,7 +29,7 @@ exports.getBySlug = (req, res, next) => {
 };
 
 exports.getById = (req, res, next) => {
-  Product.findById(req.params.id)
+  Repository.getById(req.params.id)
     .then((data) => {
       if (data) {
         res.status(200).send(data);
@@ -50,21 +43,7 @@ exports.getById = (req, res, next) => {
 };
 
 exports.put = (req, res, next) => {
-  console.log("ID do alvo:", req.params.id);
-  console.log("Dados da Munição", req.body);
-
-  Product.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: {
-        title: req.body.title,
-        description: req.body.description,
-        price: req.body.price,
-        slug: req.body.slug,
-      },
-    },
-    { new: true },
-  )
+  Repository.put(req.params.id, req.body)
     .then((data) => {
       if (!data) {
         return res.status(404).send({ message: "Produto não encontrado" });
@@ -105,11 +84,7 @@ exports.post = (req, res, next) => {
     return;
   }
 
-  let product = new Product(req.body);
-
-  product
-    .save()
-
+  Repository.create(req.body)
     .then((x) => {
       res.status(200).send({ message: "Produto  Cadastrado com Sucesso" });
     })
@@ -119,13 +94,7 @@ exports.post = (req, res, next) => {
 };
 
 exports.getByTag = (req, res, next) => {
-  Product.find(
-    {
-      tags: req.params.tag,
-      active: true,
-    },
-    "title description price slug tags",
-  )
+  Repository.getByTag(req.params.tags)
     .then((data) => {
       res.status(200).send(data);
     })
@@ -135,7 +104,7 @@ exports.getByTag = (req, res, next) => {
 };
 
 exports.delete = (req, res, next) => {
-  Product.findByIdAndDelete(req.params.id)
+  Repository.delete(req.body.id)
     .then((x) => {
       res.status(200).send({ message: "Produto Removido com sucesso" });
     })
