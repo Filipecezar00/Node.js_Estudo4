@@ -3,9 +3,10 @@
 const mongoose = require("mongoose");
 const Product = mongoose.model("Product");
 const ValidationContract = require("../validators/fluentValidator");
+const Repository = require("../repositories/productRepository");
 
 exports.get = (req, res, next) => {
-  Product.find({ active: true }, "title price slug")
+  Repository.get()
     .then((data) => {
       res.status(200).send(data);
     })
@@ -99,7 +100,7 @@ exports.post = (req, res, next) => {
     "A descrição precisa conter no mínimo três caracteres",
   );
 
-  if (contract.isValid) {
+  if (!contract.isValid()) {
     res.status(400).send(contract.errors()).end();
     return;
   }
