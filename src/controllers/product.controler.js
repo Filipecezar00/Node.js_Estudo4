@@ -5,63 +5,44 @@ const Product = mongoose.model("Product");
 const ValidationContract = require("../validators/fluentValidator");
 const Repository = require("../repositories/productRepository");
 
-exports.get = (req, res, next) => {
-  Repository.get()
-    .then((data) => {
-      res.status(200).send(data);
-    })
-    .catch((erro) => {
-      res.status(400).send(erro);
-    });
-};
-exports.getBySlug = (req, res, next) => {
-  Repository.getBySlug(req.params.slug)
-    .then((data) => {
-      if (data) {
-        res.status(200).send(data);
-      } else {
-        res.status(404).send({ message: "Produto não encontrado" });
-      }
-    })
-    .catch((erro) => {
-      res.status(400).send(erro);
-    });
+exports.get = async (req, res, next) => {
+  try {
+    var data = await Repository.get();
+    res.status(200).send(data);
+  } catch (e) {
+    res.status(500).send(e);
+  }
 };
 
-exports.getById = (req, res, next) => {
-  Repository.getById(req.params.id)
-    .then((data) => {
-      if (data) {
-        res.status(200).send(data);
-      } else {
-        res.status(404).send({ message: "ID não encontrado" });
-      }
-    })
-    .catch((erro) => {
-      res.status(400).send(erro);
-    });
+exports.getBySlug = async (req, res, next) => {
+  try {
+    var data = await Repository.getBySlug();
+    res.status(200).send(data);
+  } catch (e) {
+    res.status(500).send(e);
+  }
 };
 
-exports.put = (req, res, next) => {
-  Repository.put(req.params.id, req.body)
-    .then((data) => {
-      if (!data) {
-        return res.status(404).send({ message: "Produto não encontrado" });
-      }
-      res.status(200).send({
-        message: "Produto atualizado com sucesso!",
-        item: data,
-      });
-    })
-    .catch((e) => {
-      res.status(400).send({
-        message: "Falha ao atualizar produto",
-        data: e,
-      });
-    });
+exports.getById = async (req, res, next) => {
+  Repository.getById(req.params.id);
+  try {
+    var data = await Repository.getById(req.params.id);
+    res.status(200).send(data);
+  } catch (e) {
+    res.status(500).send(e);
+  }
 };
 
-exports.post = (req, res, next) => {
+exports.put = async (req, res, next) => {
+  try {
+    var data = await Repository.put(req.params.id, req.body);
+    res.status(200).send(data);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+};
+
+exports.post = async (req, res, next) => {
   let contract = new ValidationContract();
   contract.hasMinLen(
     req.body.title,
@@ -84,33 +65,29 @@ exports.post = (req, res, next) => {
     return;
   }
 
-  Repository.create(req.body)
-    .then((x) => {
-      res.status(200).send({ message: "Produto  Cadastrado com Sucesso" });
-    })
-    .catch((e) => {
-      res.status(400).send("Erro: " + e);
-    });
+  try {
+    var data = await Repository.create(req.body);
+    res.status(200).send(data);
+  } catch (e) {
+    res.status(500).send(e);
+  }
+  return data;
 };
 
-exports.getByTag = (req, res, next) => {
-  Repository.getByTag(req.params.tags)
-    .then((data) => {
-      res.status(200).send(data);
-    })
-    .catch((erro) => {
-      res.status(400).send(erro);
-    });
+exports.getByTag = async (req, res, next) => {
+  try {
+    var data = await Repository.getByTag(req.params.tags);
+    res.status(200).send(data);
+  } catch (e) {
+    res.status(500).send(e);
+  }
 };
 
-exports.delete = (req, res, next) => {
-  Repository.delete(req.body.id)
-    .then((x) => {
-      res.status(200).send({ message: "Produto Removido com sucesso" });
-    })
-    .catch((e) => {
-      res
-        .status(500)
-        .send({ message: `${e} erro ao Executar processo de Exclusão` });
-    });
+exports.delete = async (req, res, next) => {
+  try {
+    var data = await Repository.delete(req.body.id);
+    res.status(200).send(data);
+  } catch (e) {
+    res.status(500).send(e);
+  }
 };
