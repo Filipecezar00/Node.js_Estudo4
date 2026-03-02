@@ -16,7 +16,7 @@ exports.get = async (req, res, next) => {
 
 exports.getBySlug = async (req, res, next) => {
   try {
-    var data = await Repository.getBySlug();
+    var data = await Repository.getBySlug(req.params.slug);
     res.status(200).send(data);
   } catch (e) {
     res.status(500).send(e);
@@ -24,7 +24,6 @@ exports.getBySlug = async (req, res, next) => {
 };
 
 exports.getById = async (req, res, next) => {
-  Repository.getById(req.params.id);
   try {
     var data = await Repository.getById(req.params.id);
     res.status(200).send(data);
@@ -71,12 +70,11 @@ exports.post = async (req, res, next) => {
   } catch (e) {
     res.status(500).send(e);
   }
-  return data;
 };
 
 exports.getByTag = async (req, res, next) => {
   try {
-    var data = await Repository.getByTag(req.params.tags);
+    var data = await Repository.getByTag(req.params.tag);
     res.status(200).send(data);
   } catch (e) {
     res.status(500).send(e);
@@ -85,7 +83,7 @@ exports.getByTag = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
   try {
-    var data = await Repository.delete(req.body.id);
+    var data = await Repository.delete(req.params.id);
     res.status(200).send(data);
   } catch (e) {
     res.status(500).send(e);

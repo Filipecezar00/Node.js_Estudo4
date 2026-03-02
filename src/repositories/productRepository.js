@@ -40,12 +40,12 @@ exports.getByTag = async (tag) => {
 };
 
 exports.create = async (data) => {
-  let product = await new Product(data);
-  return product.save();
+  let product = new Product(data);
+  await product.save();
 };
 
 exports.put = async (id, data) => {
-  const res = await Product.findByIdAndUpdate(id, {
+  await Product.findByIdAndUpdate(id, {
     $set: {
       title: data.title,
       description: data.description,
@@ -53,10 +53,8 @@ exports.put = async (id, data) => {
       slug: data.slug,
     },
   });
-  return res;
 };
 
 exports.delete = async (id) => {
-  const res = await Product.findByIdAndDelete(id);
-  return res;
+  await Product.findByIdAndDelete(id);
 };
