@@ -18,6 +18,7 @@ mongoose.connect(process.env.MONGODB_URL);
 //Carregando os Models
 const Product = require("../src/models/product");
 const Customer = require("../src/models/customer");
+const Order = require("../src/models/order");
 
 //Carregando Rotas
 const index = require("../src/routes/index.js");
