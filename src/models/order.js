@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const schema = new Schema({
   number: {
-    type: Number,
+    type: String,
     required: true,
   },
   createdDate: {
@@ -22,7 +22,7 @@ const schema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Customer",
   },
-  item: [
+  items: [
     {
       quantity: {
         type: Number,
@@ -41,4 +41,4 @@ const schema = new Schema({
     },
   ],
 });
-module.exports = mongoose.model("order", schema);
+module.exports = mongoose.model("Order", schema);
