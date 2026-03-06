@@ -8,6 +8,6 @@ exports.create = async (data) => {
 };
 
 exports.get = async (data) => {
-  var res = await Order.find({});
+  var res = await Order.find({}).populate("customer").populate("itens.product");
   return res;
 };
