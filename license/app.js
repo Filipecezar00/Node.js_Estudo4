@@ -21,13 +21,13 @@ const Customer = require("../src/models/customer");
 const Order = require("../src/models/order");
 
 //Carregando Rotas
-const index = require("../src/routes/index.js");
-const Products = require("../src/routes/product.js");
-
+const Routeindex = require("../src/routes/index.js");
+const RouteProducts = require("../src/routes/product.js");
+const RouteCustomer = require("../src/routes/customerRoutes");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", index);
+app.use("/", Routeindex);
 
 app.get("/teste", (req, res) => {
   res.send("O app.js está funcionando");
@@ -35,6 +35,7 @@ app.get("/teste", (req, res) => {
 
 app.use("/", router);
 
-app.use("/products", Products);
+app.use("/products", RouteProducts);
+app.use("/customer", RouteCustomer);
 
 module.exports = app;

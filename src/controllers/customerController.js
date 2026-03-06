@@ -19,9 +19,13 @@ exports.post = async (req, res, next) => {
   }
   try {
     await repository.create(req.body);
-    res.status(200).send("Fluxo trabalhando corretamente");
+    res.status(200).send("Usuario Cadastrado no sistema");
   } catch (err) {
-    res.status(500).send("Erro Interno");
+    res
+      .status(500)
+      .send(
+        "Erro, Não foi possivel cadastrar o usuario devido a um erro interno.",
+      );
     console.error(err);
   }
 };
