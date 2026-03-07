@@ -3,12 +3,12 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-
+const config = require("../src/config.js");
 const app = express();
 const router = express.Router();
 
 //Conecta ao Banco
-mongoose.connect(process.env.MONGODB_URL);
+mongoose.connect(config.connectionString);
 
 //Carregando os Models
 const Product = require("../src/models/product");
