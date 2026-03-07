@@ -2,6 +2,7 @@
 
 const repository = require("../repositories/customerRepository");
 const validationContract = require("../validators/fluentValidator");
+const md5 = require("md5");
 
 exports.post = async (req, res, next) => {
   let contract = new validationContract();
@@ -18,7 +19,11 @@ exports.post = async (req, res, next) => {
     return;
   }
   try {
-    await repository.create(req.body);
+    await repository.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: md5(req.body.password + global.SALT_KEY),
+    });
     res.status(200).send("Usuario Cadastrado no sistema");
   } catch (err) {
     res
