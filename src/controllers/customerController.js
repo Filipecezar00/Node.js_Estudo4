@@ -3,6 +3,9 @@
 const repository = require("../repositories/customerRepository");
 const validationContract = require("../validators/fluentValidator");
 const md5 = require("md5");
+const config = require("../config");
+
+const emailService = require("../services/emailService");
 
 exports.post = async (req, res, next) => {
   let contract = new validationContract();
@@ -18,6 +21,7 @@ exports.post = async (req, res, next) => {
     res.status(400).send(contract.errors()).end();
     return;
   }
+
   try {
     await repository.create({
       name: req.body.name,
@@ -25,6 +29,11 @@ exports.post = async (req, res, next) => {
       password: md5(req.body.password + global.SALT_KEY),
     });
     res.status(200).send("Usuario Cadastrado no sistema");
+    emailService.send(
+      req.body.email,
+      "Bem vindo ao NodeStore",
+      config.global.EMAIL_TMPL.replace("{0}", req.body.name),
+    );
   } catch (err) {
     res
       .status(500)
