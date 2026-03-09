@@ -15,6 +15,7 @@
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "guid": "^0.0.12",
+    "jsonwebtoken": "^7.4.0",
     "md5": "^2.3.0",
     "mongodb": "^7.1.0",
     "mongoose": "^9.2.1",
