@@ -3,8 +3,8 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/order-controller");
-
-router.get("/", controller.get);
-router.post("/", controller.post);
+const authService = require("../services/authService");
+router.get("/", authService.authorize, controller.get);
+router.post("/", authService.authorize, controller.post);
 
 module.exports = router;
