@@ -25,20 +25,26 @@ exports.post = async (req, res, next) => {
     await repository.create({
       name: req.body.name,
       email: req.body.email,
-      password: md5(req.body.password + config.SALT_KEY),
+      password: md5(req.body.password + config.saltKey),
     });
-    res.status(201).send({ message: "Cliente cadastrado com Sucesso!" });
+    return res.status(201).send({ message: "Cliente cadastrado com Sucesso!" });
   } catch (err) {
     console.error(err);
-    res.status(500).send({ message: "Falha ao cadastrar cliente" });
+    return res.status(500).send({ message: "Falha ao cadastrar cliente" });
   }
 };
 exports.authenticate = async (req, res, next) => {
   try {
     const customer = await repository.authenticate({
       email: req.body.email,
-      password: md5(req.body.password + global.SALT_KEY),
+      password: md5(req.body.password + config.saltKey),
     });
+
+    console.log("Senha enviada:", req.body.password);
+    console.log(
+      "Hash gerado para busca:",
+      md5(req.body.password + config.saltKey),
+    );
 
     if (!customer) {
       return res.status(404).send({
@@ -50,21 +56,19 @@ exports.authenticate = async (req, res, next) => {
       email: customer.email,
       name: customer.name,
     });
-    res.status(201).send({
+    return res.status(201).send({
       token: token,
       data: {
         email: customer.email,
         name: customer.name,
       },
     });
-
-    res.status(200).send("Usuario Cadastrado no sistema");
   } catch (err) {
-    res
+    console.error(err);
+    return res
       .status(500)
       .send(
         "Erro, Não foi possivel cadastrar o usuario devido a um erro interno.",
       );
-    console.error(err);
   }
 };
