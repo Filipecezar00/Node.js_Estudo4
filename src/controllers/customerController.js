@@ -25,7 +25,7 @@ exports.post = async (req, res, next) => {
     await repository.create({
       name: req.body.name,
       email: req.body.email,
-      password: md5(req.body.password + config.saltKey),
+      password: md5(req.body.password + global.SALT_KEY),
     });
     return res.status(201).send({ message: "Cliente cadastrado com Sucesso!" });
   } catch (err) {
@@ -37,13 +37,13 @@ exports.authenticate = async (req, res, next) => {
   try {
     const customer = await repository.authenticate({
       email: req.body.email,
-      password: md5(req.body.password + config.saltKey),
+      password: md5(req.body.password + global.SALT_KEY),
     });
 
     console.log("Senha enviada:", req.body.password);
     console.log(
       "Hash gerado para busca:",
-      md5(req.body.password + config.saltKey),
+      md5(req.body.password + global.SALT_KEY),
     );
 
     if (!customer) {
