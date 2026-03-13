@@ -26,6 +26,7 @@ exports.post = async (req, res, next) => {
       name: req.body.name,
       email: req.body.email,
       password: md5(req.body.password + global.SALT_KEY),
+      roles: ["user"],
     });
     return res.status(201).send({ message: "Cliente cadastrado com Sucesso!" });
   } catch (err) {
@@ -55,6 +56,7 @@ exports.authenticate = async (req, res, next) => {
       id: customer._id,
       email: customer.email,
       name: customer.name,
+      roles: customer.roles,
     });
     return res.status(201).send({
       token: token,
@@ -81,17 +83,19 @@ exports.refreshToken = async (req, res, next) => {
     const customer = await repository.getById(data.id);
 
     if (!customer) {
-      (res.status(404),
+      return (
+        res.status(404),
         send({
           message: "Cliente não encontrado",
-        }));
-      return;
+        })
+      );
     }
 
     const tokenData = await authService.generateToken({
       id: customer._id,
       email: customer.email,
       name: customer.name,
+      roles: customer.roles,
     });
 
     res.status(201).send({
